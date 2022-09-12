@@ -27,12 +27,12 @@ export default function sliderVertical(time) {
     interval = setInterval(showSlide, time);
 
 
-mainSlider.addEventListener("mouseover", ()=>{
-    clearInterval(interval);
-});
-mainSlider.addEventListener("mouseout", ()=>{
-    interval = setInterval(showSlide, time);
-});
+    mainSlider.addEventListener("mouseover", () => {
+        clearInterval(interval);
+    });
+    mainSlider.addEventListener("mouseout", () => {
+        interval = setInterval(showSlide, time);
+    });
 
     // let mainSlider = document.querySelector(".main-slider");
     // let mainSliderWrapper = document.querySelector(".main-slider-wrapper");
