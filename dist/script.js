@@ -934,6 +934,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_feedbackSlider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/feedbackSlider */ "./src/js/modules/feedbackSlider.js");
 /* harmony import */ var _modules_gift__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/gift */ "./src/js/modules/gift.js");
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+/* harmony import */ var _modules_pictures__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/pictures */ "./src/js/modules/pictures.js");
+
 
 
 
@@ -944,6 +946,7 @@ window.addEventListener("DOMContentLoaded", function () {
   Object(_modules_feedbackSlider__WEBPACK_IMPORTED_MODULE_1__["default"])(2000);
   Object(_modules_gift__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  Object(_modules_pictures__WEBPACK_IMPORTED_MODULE_4__["default"])();
 });
 
 /***/ }),
@@ -1059,6 +1062,31 @@ function gift() {
 
 /***/ }),
 
+/***/ "./src/js/modules/pictures.js":
+/*!************************************!*\
+  !*** ./src/js/modules/pictures.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return pictures; });
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+function pictures() {
+  var picturesWrapper = document.querySelector(".sizes-wrapper");
+  var pictureBlock = picturesWrapper.querySelectorAll(".sizes-block");
+  pictureBlock.forEach(function (block) {
+    block.addEventListener("mousemove", function (e) {
+      console.log(block);
+    });
+  });
+}
+
+/***/ }),
+
 /***/ "./src/js/modules/sliderVertical.js":
 /*!******************************************!*\
   !*** ./src/js/modules/sliderVertical.js ***!
@@ -1138,7 +1166,53 @@ function sliderVertical(time) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return tabs; });
-function tabs() {}
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+function tabs() {
+  var portfolioMenu = document.querySelector(".portfolio-menu");
+  var portfolioMenuItems = document.querySelectorAll(".portfolio-menu li");
+  var portfolioWrapper = document.querySelector(".portfolio-wrapper");
+  var all = portfolioWrapper.querySelectorAll(".all");
+  var noPorfolio = document.querySelector(".portfolio-no");
+  all.forEach(function (picture) {
+    picture.classList.add("animated", "fadeIn");
+  });
+
+  function removeActiveClass() {
+    portfolioMenuItems.forEach(function (item) {
+      item.classList.remove("active");
+    });
+  }
+
+  function removeAllPictures() {
+    all.forEach(function (picture) {
+      picture.style.display = "none";
+    });
+    noPorfolio.style.display = "none";
+  }
+
+  function showPictureByClass(classSelector) {
+    if (classSelector == "grandmother" || classSelector == "granddad") {
+      noPorfolio.style.display = "block";
+    } else {
+      portfolioWrapper.querySelectorAll(".".concat(classSelector)).forEach(function (item) {
+        item.style.display = "block";
+      });
+    }
+  }
+
+  portfolioMenu.addEventListener("click", function (e) {
+    portfolioMenuItems.forEach(function (item, i) {
+      if (e.target && e.target == item) {
+        removeActiveClass();
+        portfolioMenuItems[i].classList.add("active");
+        removeAllPictures();
+        showPictureByClass(e.target.classList.item(0));
+      }
+    });
+  });
+}
 
 /***/ })
 
