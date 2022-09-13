@@ -5,10 +5,10 @@ export default function tabs() {
     const all = portfolioWrapper.querySelectorAll(".all");
     const noPorfolio = document.querySelector(".portfolio-no");
 
-    all.forEach(picture => {
-        picture.classList.add("animated", "fadeIn");
-    });
-
+    // all.forEach(picture => {
+    //     picture.classList.add("animated", "fadeIn");
+    // });
+    showPictureByClass("all");
     function removeActiveClass() {
         portfolioMenuItems.forEach(item => {
             item.classList.remove("active");
@@ -18,6 +18,9 @@ export default function tabs() {
     function removeAllPictures() {
         all.forEach(picture => {
             picture.style.display = "none";
+            picture.classList.remove("animated", "fadeIn");
+            picture.classList.add("animated", "fadeOut");
+
         });
         noPorfolio.style.display = "none";
     }
@@ -27,6 +30,8 @@ export default function tabs() {
             noPorfolio.style.display = "block";
         } else {
             portfolioWrapper.querySelectorAll(`.${classSelector}`).forEach(item => {
+                item.classList.remove("animated", "fadeOut");
+                item.classList.add("animated", "fadeIn");
                 item.style.display = "block";
             });
         }

@@ -935,6 +935,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_gift__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/gift */ "./src/js/modules/gift.js");
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
 /* harmony import */ var _modules_pictures__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/pictures */ "./src/js/modules/pictures.js");
+/* harmony import */ var _modules_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/styles */ "./src/js/modules/styles.js");
+/* harmony import */ var _modules_accordion__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/accordion */ "./src/js/modules/accordion.js");
+
+
 
 
 
@@ -947,7 +951,44 @@ window.addEventListener("DOMContentLoaded", function () {
   Object(_modules_gift__WEBPACK_IMPORTED_MODULE_2__["default"])();
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_3__["default"])();
   Object(_modules_pictures__WEBPACK_IMPORTED_MODULE_4__["default"])();
+  Object(_modules_styles__WEBPACK_IMPORTED_MODULE_5__["default"])();
+  Object(_modules_accordion__WEBPACK_IMPORTED_MODULE_6__["default"])();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/accordion.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/accordion.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return accordion; });
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+function accordion() {
+  var accordionHeadings = document.querySelectorAll("#accordion .accordion-heading");
+  var accordionBlocks = document.querySelectorAll("#accordion .accordion-block");
+  accordionHeadings.forEach(function (heading) {
+    heading.addEventListener("click", function (e) {
+      if (heading.classList.contains("accordion-heading")) {
+        heading.classList.remove("accordion-heading");
+        heading.classList.add("accordion-heading-active");
+        heading.nextElementSibling.classList.remove("accordion-block");
+        heading.nextElementSibling.classList.add("accordion-block-active");
+      } else {
+        heading.classList.remove("accordion-heading-active");
+        heading.classList.add("accordion-heading");
+        heading.nextElementSibling.classList.remove("accordion-block-active");
+        heading.nextElementSibling.classList.add("accordion-block");
+      }
+    });
+  });
+}
 
 /***/ }),
 
@@ -1079,8 +1120,19 @@ function pictures() {
   var picturesWrapper = document.querySelector(".sizes-wrapper");
   var pictureBlock = picturesWrapper.querySelectorAll(".sizes-block");
   pictureBlock.forEach(function (block) {
-    block.addEventListener("mousemove", function (e) {
-      console.log(block);
+    block.addEventListener("mouseover", function (e) {
+      var src = block.querySelector("img").getAttribute("src");
+      block.querySelector("img").setAttribute("src", src.substr(0, src.length - 4) + "-1.png");
+      block.querySelectorAll("p:not(.sizes-hit)").forEach(function (p) {
+        p.style.visibility = "hidden";
+      });
+    });
+    block.addEventListener("mouseout", function (e) {
+      var src = block.querySelector("img").getAttribute("src");
+      block.querySelector("img").setAttribute("src", src.substr(0, src.length - 6) + ".png");
+      block.querySelectorAll("p").forEach(function (p) {
+        p.style.visibility = "visible";
+      });
     });
   });
 }
@@ -1156,6 +1208,33 @@ function sliderVertical(time) {
 
 /***/ }),
 
+/***/ "./src/js/modules/styles.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/styles.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return styles; });
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+function styles() {
+  var stylesBtn = document.querySelector(".button-styles");
+  var allWorks = document.querySelectorAll("#styles .row > div");
+  stylesBtn.addEventListener("click", function () {
+    allWorks.forEach(function (work) {
+      work.classList.remove("hidden-lg", "hidden-md", "hidden-sm", "hidden-xs", "styles-2");
+      work.classList.add("faded", "col-sm-3", "col-sm-offset-0", "col-xs-10", "col-xs-offset-1");
+    });
+    stylesBtn.remove();
+  });
+}
+
+/***/ }),
+
 /***/ "./src/js/modules/tabs.js":
 /*!********************************!*\
   !*** ./src/js/modules/tabs.js ***!
@@ -1174,10 +1253,11 @@ function tabs() {
   var portfolioMenuItems = document.querySelectorAll(".portfolio-menu li");
   var portfolioWrapper = document.querySelector(".portfolio-wrapper");
   var all = portfolioWrapper.querySelectorAll(".all");
-  var noPorfolio = document.querySelector(".portfolio-no");
-  all.forEach(function (picture) {
-    picture.classList.add("animated", "fadeIn");
-  });
+  var noPorfolio = document.querySelector(".portfolio-no"); // all.forEach(picture => {
+  //     picture.classList.add("animated", "fadeIn");
+  // });
+
+  showPictureByClass("all");
 
   function removeActiveClass() {
     portfolioMenuItems.forEach(function (item) {
@@ -1188,6 +1268,8 @@ function tabs() {
   function removeAllPictures() {
     all.forEach(function (picture) {
       picture.style.display = "none";
+      picture.classList.remove("animated", "fadeIn");
+      picture.classList.add("animated", "fadeOut");
     });
     noPorfolio.style.display = "none";
   }
@@ -1197,6 +1279,8 @@ function tabs() {
       noPorfolio.style.display = "block";
     } else {
       portfolioWrapper.querySelectorAll(".".concat(classSelector)).forEach(function (item) {
+        item.classList.remove("animated", "fadeOut");
+        item.classList.add("animated", "fadeIn");
         item.style.display = "block";
       });
     }
