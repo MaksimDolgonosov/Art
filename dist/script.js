@@ -932,12 +932,18 @@ module.exports = g;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_sliderVertical__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/sliderVertical */ "./src/js/modules/sliderVertical.js");
 /* harmony import */ var _modules_feedbackSlider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/feedbackSlider */ "./src/js/modules/feedbackSlider.js");
+/* harmony import */ var _modules_gift__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/gift */ "./src/js/modules/gift.js");
+/* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+
+
 
 
 window.addEventListener("DOMContentLoaded", function () {
   new WOW().init();
   Object(_modules_sliderVertical__WEBPACK_IMPORTED_MODULE_0__["default"])(3000);
   Object(_modules_feedbackSlider__WEBPACK_IMPORTED_MODULE_1__["default"])(2000);
+  Object(_modules_gift__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_3__["default"])();
 });
 
 /***/ }),
@@ -1016,6 +1022,43 @@ function feedbackSlider(time) {
 
 /***/ }),
 
+/***/ "./src/js/modules/gift.js":
+/*!********************************!*\
+  !*** ./src/js/modules/gift.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return gift; });
+function gift() {
+  var giftItem = document.querySelector(".fixed-gift");
+  var giftModal = document.querySelector(".popup-gift");
+
+  function openGift() {
+    giftModal.style.display = "block";
+    document.body.style.overflow = "hidden";
+    giftItem.remove();
+  }
+
+  giftItem.addEventListener("click", openGift);
+  giftModal.addEventListener("click", function (e) {
+    if (e.target && (e.target.classList.contains("popup-gift") || e.target.classList.contains("popup-close"))) {
+      giftModal.style.display = "none";
+      document.body.style.overflow = "";
+    }
+  });
+  document.addEventListener("scroll", function () {
+    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+      giftItem.click();
+      giftItem.removeEventListener("click", openGift);
+    }
+  });
+}
+
+/***/ }),
+
 /***/ "./src/js/modules/sliderVertical.js":
 /*!******************************************!*\
   !*** ./src/js/modules/sliderVertical.js ***!
@@ -1082,6 +1125,20 @@ function sliderVertical(time) {
   // }
   // setInterval(nextSlider, time);
 }
+
+/***/ }),
+
+/***/ "./src/js/modules/tabs.js":
+/*!********************************!*\
+  !*** ./src/js/modules/tabs.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return tabs; });
+function tabs() {}
 
 /***/ })
 
