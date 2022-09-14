@@ -29,10 +29,5 @@ export default function modal(triggerSelector, modalSelector) {
         }
     });
 
-
-
-
-
-
-
 }
+
