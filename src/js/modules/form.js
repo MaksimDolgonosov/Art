@@ -1,6 +1,5 @@
 export default function form() {
     const forms = document.querySelectorAll("form");
-    console.log(forms);
 
     forms.forEach(form => {
         bindForm(form);

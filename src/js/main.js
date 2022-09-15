@@ -7,6 +7,8 @@ import styles from "./modules/styles";
 import accordion from "./modules/accordion";
 import modal from "./modules/modal";
 import form from "./modules/form";
+import mask from "./modules/mask";
+import checkTextInputs from "./modules/checkTextInputs";
 
 let timeout = setTimeout(() => {
     document.querySelectorAll("[data-modal]").forEach(modal => {
@@ -36,6 +38,9 @@ window.addEventListener("DOMContentLoaded", () => {
     modal(".button-design", ".popup-design");
     modal(".button-consultation", ".popup-consultation");
     form();
+    mask("[name='phone']");
+    checkTextInputs("[name='name']");
+    checkTextInputs("[name='message']");
 
 });
 
