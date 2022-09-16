@@ -27,7 +27,8 @@ export default function form() {
             let div = document.createElement("h3");
             div.style.cssText = `
             font-size: 18px;
-            margin-bottom: 0;`;
+            margin-bottom: 0;
+            text-align: center;`;
             div.textContent = message.loading;
             form.insertAdjacentElement("afterend", div);
             postData("assets/server.php", formData)
@@ -46,7 +47,7 @@ export default function form() {
                     setTimeout(() => {
                         document.querySelectorAll('[data-modal]').forEach(modal => {
                             modal.style.display = "none";
-                            document.body.overflow = "";
+                            document.body.style.overflow = "";
                             form.style.display = "block";
                             form.style.visibility = "";
                             form.reset();
