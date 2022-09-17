@@ -9,6 +9,7 @@ import modal from "./modules/modal";
 import form from "./modules/form";
 import mask from "./modules/mask";
 import checkTextInputs from "./modules/checkTextInputs";
+import calc from "./modules/calc";
 
 let timeout = setTimeout(() => {
     document.querySelectorAll("[data-modal]").forEach(modal => {
@@ -41,6 +42,7 @@ window.addEventListener("DOMContentLoaded", () => {
     mask("[name='phone']");
     checkTextInputs("[name='name']");
     checkTextInputs("[name='message']");
+    calc();
 
 });
 

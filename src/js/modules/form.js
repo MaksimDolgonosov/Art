@@ -1,5 +1,17 @@
 export default function form() {
     const forms = document.querySelectorAll("form");
+    const uploads = document.querySelectorAll("[name='upload']");
+
+    uploads.forEach(upload => {
+        upload.addEventListener("input", () => {
+            let fileName = upload.files[0].name.split('.')[0];
+            let fileSecond = upload.files[0].name.split('.')[1];
+            if (fileName.length > 5) {
+                fileName = fileName.substring(0, 6) + "...";
+            }
+            upload.previousElementSibling.textContent = fileName + fileSecond;
+        });
+    });
 
     forms.forEach(form => {
         bindForm(form);
@@ -52,6 +64,9 @@ export default function form() {
                             form.style.visibility = "";
                             form.reset();
                             div.remove();
+                            uploads.forEach(upload => {
+                                    upload.previousElementSibling.textContent = "Файл не выбран";
+                            });
                         });
                     }, 3000);
 
