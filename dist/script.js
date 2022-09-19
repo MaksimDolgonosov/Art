@@ -4366,6 +4366,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_mask__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/mask */ "./src/js/modules/mask.js");
 /* harmony import */ var _modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/checkTextInputs */ "./src/js/modules/checkTextInputs.js");
 /* harmony import */ var _modules_calc__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/calc */ "./src/js/modules/calc.js");
+/* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/burger */ "./src/js/modules/burger.js");
+
 
 
 
@@ -4407,6 +4409,7 @@ window.addEventListener("DOMContentLoaded", function () {
   Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_11__["default"])("[name='name']");
   Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_11__["default"])("[name='message']");
   Object(_modules_calc__WEBPACK_IMPORTED_MODULE_12__["default"])(calcObj);
+  Object(_modules_burger__WEBPACK_IMPORTED_MODULE_13__["default"])();
 });
 
 /***/ }),
@@ -4442,6 +4445,30 @@ function accordion() {
       }
     });
   });
+}
+
+/***/ }),
+
+/***/ "./src/js/modules/burger.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/burger.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return burger; });
+function burger() {
+  var burgerBtn = document.querySelector(".burger");
+  var burgerMenu = document.querySelector(".burger-menu");
+  console.log(window.innerWidth);
+
+  if (window.innerWidth < 992) {
+    burgerMenu.style.display = "block";
+  } else {
+    burgerMenu.style.display = "none";
+  }
 }
 
 /***/ }),
