@@ -1,4 +1,4 @@
-export default function form() {
+export default function form(calcObj) {
     const forms = document.querySelectorAll("form");
     const uploads = document.querySelectorAll("[name='upload']");
 
@@ -34,8 +34,15 @@ export default function form() {
     function bindForm(form) {
         form.addEventListener("submit", e => {
             e.preventDefault();
-
             let formData = new FormData(form);
+            console.log(form.classList.contains("formCalc"));
+            if (form.classList.contains("formCalc")) {
+                for (let key in calcObj) {
+                    formData.append(key, calcObj[key]);
+                }
+            }
+            console.log(calcObj);
+            console.log(formData);
             let div = document.createElement("h3");
             div.style.cssText = `
             font-size: 18px;
@@ -65,8 +72,9 @@ export default function form() {
                             form.reset();
                             div.remove();
                             uploads.forEach(upload => {
-                                    upload.previousElementSibling.textContent = "Файл не выбран";
+                                upload.previousElementSibling.textContent = "Файл не выбран";
                             });
+                            calcObj = {};
                         });
                     }, 3000);
 

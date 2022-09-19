@@ -4391,6 +4391,7 @@ var timeout = setTimeout(function () {
 }, 60000);
 
 window.addEventListener("DOMContentLoaded", function () {
+  var calcObj = {};
   new WOW().init();
   Object(_modules_sliderVertical__WEBPACK_IMPORTED_MODULE_1__["default"])(3000);
   Object(_modules_feedbackSlider__WEBPACK_IMPORTED_MODULE_2__["default"])(2000);
@@ -4401,11 +4402,11 @@ window.addEventListener("DOMContentLoaded", function () {
   Object(_modules_accordion__WEBPACK_IMPORTED_MODULE_7__["default"])();
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_8__["default"])(".button-design", ".popup-design");
   Object(_modules_modal__WEBPACK_IMPORTED_MODULE_8__["default"])(".button-consultation", ".popup-consultation");
-  Object(_modules_form__WEBPACK_IMPORTED_MODULE_9__["default"])();
+  Object(_modules_form__WEBPACK_IMPORTED_MODULE_9__["default"])(calcObj);
   Object(_modules_mask__WEBPACK_IMPORTED_MODULE_10__["default"])("[name='phone']");
   Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_11__["default"])("[name='name']");
   Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_11__["default"])("[name='message']");
-  Object(_modules_calc__WEBPACK_IMPORTED_MODULE_12__["default"])();
+  Object(_modules_calc__WEBPACK_IMPORTED_MODULE_12__["default"])(calcObj);
 });
 
 /***/ }),
@@ -4455,7 +4456,7 @@ function accordion() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return calc; });
-function calc() {
+function calc(calcObj) {
   var sizeSelector = document.querySelector("#size");
   var materialSelector = document.querySelector("#material");
   var optionsSelector = document.querySelector("#options");
@@ -4473,6 +4474,10 @@ function calc() {
     } else {
       resultSelector.textContent = sum;
     }
+
+    calcObj.size = sizeSelector.value;
+    calcObj.material = materialSelector.value;
+    calcObj.options = optionsSelector.value;
   }
 
   sizeSelector.addEventListener("change", calcFunc);
@@ -4624,7 +4629,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function form() {
+function form(calcObj) {
   var forms = document.querySelectorAll("form");
   var uploads = document.querySelectorAll("[name='upload']");
   uploads.forEach(function (upload) {
@@ -4680,6 +4685,16 @@ function form() {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var formData = new FormData(form);
+      console.log(form.classList.contains("formCalc"));
+
+      if (form.classList.contains("formCalc")) {
+        for (var key in calcObj) {
+          formData.append(key, calcObj[key]);
+        }
+      }
+
+      console.log(calcObj);
+      console.log(formData);
       var div = document.createElement("h3");
       div.style.cssText = "\n            font-size: 18px;\n            margin-bottom: 0;\n            text-align: center;";
       div.textContent = message.loading;
@@ -4705,6 +4720,7 @@ function form() {
             uploads.forEach(function (upload) {
               upload.previousElementSibling.textContent = "Файл не выбран";
             });
+            calcObj = {};
           });
         }, 3000);
       });

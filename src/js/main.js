@@ -25,7 +25,7 @@ let timeout = setTimeout(() => {
 export { timeout };
 
 window.addEventListener("DOMContentLoaded", () => {
-
+    let calcObj = {};
 
 
     new WOW().init();
@@ -38,11 +38,13 @@ window.addEventListener("DOMContentLoaded", () => {
     accordion();
     modal(".button-design", ".popup-design");
     modal(".button-consultation", ".popup-consultation");
-    form();
+    form(calcObj);
     mask("[name='phone']");
     checkTextInputs("[name='name']");
     checkTextInputs("[name='message']");
-    calc();
+    calc(calcObj);
 
+
+    
 });
 
