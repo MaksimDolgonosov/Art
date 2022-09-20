@@ -12,6 +12,7 @@ import checkTextInputs from "./modules/checkTextInputs";
 import calc from "./modules/calc";
 import burger from "./modules/burger";
 import scroll from "./modules/scroll";
+import drag from "./modules/drag";
 
 let timeout = setTimeout(() => {
     document.querySelectorAll("[data-modal]").forEach(modal => {
@@ -47,8 +48,6 @@ window.addEventListener("DOMContentLoaded", () => {
     calc(calcObj);
     burger();
     scroll();
-
-
-    
+    drag();    
 });
 

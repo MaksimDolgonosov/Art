@@ -4368,6 +4368,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_calc__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/calc */ "./src/js/modules/calc.js");
 /* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/burger */ "./src/js/modules/burger.js");
 /* harmony import */ var _modules_scroll__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./modules/scroll */ "./src/js/modules/scroll.js");
+/* harmony import */ var _modules_drag__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./modules/drag */ "./src/js/modules/drag.js");
+
 
 
 
@@ -4413,6 +4415,7 @@ window.addEventListener("DOMContentLoaded", function () {
   Object(_modules_calc__WEBPACK_IMPORTED_MODULE_12__["default"])(calcObj);
   Object(_modules_burger__WEBPACK_IMPORTED_MODULE_13__["default"])();
   Object(_modules_scroll__WEBPACK_IMPORTED_MODULE_14__["default"])();
+  Object(_modules_drag__WEBPACK_IMPORTED_MODULE_15__["default"])();
 });
 
 /***/ }),
@@ -4550,6 +4553,102 @@ function checkTextInputs(selector) {
       }
     });
   });
+}
+
+/***/ }),
+
+/***/ "./src/js/modules/drag.js":
+/*!********************************!*\
+  !*** ./src/js/modules/drag.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return drag; });
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
+/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.string.split */ "./node_modules/core-js/modules/es.string.split.js");
+/* harmony import */ var core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+function drag() {
+  var inputsDrag = document.querySelectorAll("[name='upload']");
+  inputsDrag.forEach(function (item) {
+    item.addEventListener("dragover", stopPropagation);
+    item.addEventListener("dragenter", stopPropagation);
+    item.addEventListener("dragleave", stopPropagation);
+    item.addEventListener("drop", stopPropagation);
+  });
+
+  function stopPropagation(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  inputsDrag.forEach(function (item) {
+    item.addEventListener("dragover", function () {
+      return highlight(item);
+    }); // item.addEventListener("dragenter", () => highlight(item));
+
+    item.addEventListener("dragleave", function () {
+      return nohighlight(item);
+    });
+    item.addEventListener("drop", function (e) {
+      item.files = e.dataTransfer.files;
+
+      if (item.closest(".main")) {
+        var formData = new FormData();
+        formData.append("image", item.files[0]);
+        fetch("assets/server.php", {
+          method: "POST",
+          body: formData
+        }).then(function (data) {
+          return data.text();
+        }).then(function (response) {
+          return console.log(response);
+        });
+        nohighlight(item);
+      } else {
+        var fileName = item.files[0].name.split('.')[0];
+        var fileSecond = item.files[0].name.split('.')[1];
+
+        if (fileName.length > 5) {
+          fileName = fileName.substring(0, 6) + "...";
+        }
+
+        item.previousElementSibling.textContent = fileName + fileSecond;
+        nohighlight(item);
+      }
+    });
+  });
+
+  function highlight(element) {
+    element.closest(".file_upload").style.border = "2px solid green";
+    element.closest(".file_upload").style.backgroundColor = "red";
+  }
+
+  function nohighlight(element) {
+    element.closest(".file_upload").style.border = "none";
+
+    if (element.closest(".formCalc")) {
+      element.closest(".file_upload").style.backgroundColor = "white";
+    } else if (element.closest(".main")) {
+      element.closest(".file_upload").style.backgroundColor = "#f7e7e6";
+    } else {
+      element.closest(".file_upload").style.backgroundColor = "#ededed";
+    }
+  }
 }
 
 /***/ }),
@@ -4715,7 +4814,6 @@ function form(calcObj) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var formData = new FormData(form);
-      console.log(form.classList.contains("formCalc"));
 
       if (form.classList.contains("formCalc")) {
         for (var key in calcObj) {
@@ -4723,8 +4821,6 @@ function form(calcObj) {
         }
       }
 
-      console.log(calcObj);
-      console.log(formData);
       var div = document.createElement("h3");
       div.style.cssText = "\n            font-size: 18px;\n            margin-bottom: 0;\n            text-align: center;";
       div.textContent = message.loading;
