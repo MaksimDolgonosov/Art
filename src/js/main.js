@@ -11,6 +11,7 @@ import mask from "./modules/mask";
 import checkTextInputs from "./modules/checkTextInputs";
 import calc from "./modules/calc";
 import burger from "./modules/burger";
+import scroll from "./modules/scroll";
 
 let timeout = setTimeout(() => {
     document.querySelectorAll("[data-modal]").forEach(modal => {
@@ -45,6 +46,7 @@ window.addEventListener("DOMContentLoaded", () => {
     checkTextInputs("[name='message']");
     calc(calcObj);
     burger();
+    scroll();
 
 
     

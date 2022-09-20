@@ -4367,6 +4367,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/checkTextInputs */ "./src/js/modules/checkTextInputs.js");
 /* harmony import */ var _modules_calc__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/calc */ "./src/js/modules/calc.js");
 /* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/burger */ "./src/js/modules/burger.js");
+/* harmony import */ var _modules_scroll__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./modules/scroll */ "./src/js/modules/scroll.js");
+
 
 
 
@@ -4410,6 +4412,7 @@ window.addEventListener("DOMContentLoaded", function () {
   Object(_modules_checkTextInputs__WEBPACK_IMPORTED_MODULE_11__["default"])("[name='message']");
   Object(_modules_calc__WEBPACK_IMPORTED_MODULE_12__["default"])(calcObj);
   Object(_modules_burger__WEBPACK_IMPORTED_MODULE_13__["default"])();
+  Object(_modules_scroll__WEBPACK_IMPORTED_MODULE_14__["default"])();
 });
 
 /***/ }),
@@ -4462,13 +4465,13 @@ __webpack_require__.r(__webpack_exports__);
 function burger() {
   var burgerBtn = document.querySelector(".burger");
   var burgerMenu = document.querySelector(".burger-menu");
-  console.log(window.innerWidth);
-
-  if (window.innerWidth < 992) {
-    burgerMenu.style.display = "block";
-  } else {
-    burgerMenu.style.display = "none";
-  }
+  burgerBtn.addEventListener("click", function () {
+    if (window.screen.availWidth < 992 && burgerMenu.style.display == "none") {
+      burgerMenu.style.display = "block";
+    } else {
+      burgerMenu.style.display = "none";
+    }
+  });
 }
 
 /***/ }),
@@ -4941,6 +4944,113 @@ function pictures() {
       });
     });
   });
+}
+
+/***/ }),
+
+/***/ "./src/js/modules/scroll.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/scroll.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return scroll; });
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_0__);
+
+function scroll() {
+  var upElem = document.querySelector(".pageup");
+  window.addEventListener("scroll", function () {
+    if (document.documentElement.scrollTop > 1650) {
+      upElem.classList.add("animated", "fadeIn");
+      upElem.classList.remove("fadeOut");
+    } else {
+      upElem.classList.add("fadeOut");
+      upElem.classList.remove("fadeIn");
+    }
+  }); // Scrolling with raf
+  // В header нужно установить id="up";
+
+  var links = document.querySelectorAll('[href^="#"]');
+  var speed = 0.1; // console.log(links);
+
+  links.forEach(function (link) {
+    if (link.getAttribute("href") != "#") {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        var widthTop = document.documentElement.scrollTop,
+            hash = this.hash,
+            toBlock = document.querySelector(hash).getBoundingClientRect().top,
+            // метод, позволяющий получить количество пикселей до элемента(его верхней границы)
+        start = null;
+        requestAnimationFrame(step);
+
+        function step(time) {
+          //time - время, прошедшее с момента начала загрузки страницы в милисекундах. Это callback функция requestAnimationFrame
+          if (start === null) {
+            start = time;
+          }
+
+          var progress = time - start;
+          var r = toBlock < 0 ? Math.max(widthTop - progress / speed, widthTop + toBlock) : Math.min(widthTop + progress / speed, widthTop + toBlock);
+          document.documentElement.scrollTo(0, r);
+
+          if (r != widthTop + toBlock) {
+            requestAnimationFrame(step);
+          } else {
+            location.hash = hash;
+          }
+        }
+      });
+    }
+  }); // Pure js scrolling
+  // const element = document.documentElement,
+  //       body = document.body;
+  // const calcScroll = () => {
+  //     upElem.addEventListener('click', function(event) {
+  //         let scrollTop = Math.round(body.scrollTop || element.scrollTop);
+  //         if (this.hash !== '') {
+  //             event.preventDefault();
+  //             let hashElement = document.querySelector(this.hash),
+  //                 hashElementTop = 0;
+  //             while (hashElement.offsetParent) {
+  //                 hashElementTop += hashElement.offsetTop;
+  //                 hashElement = hashElement.offsetParent;
+  //             }
+  //             hashElementTop = Math.round(hashElementTop);
+  //             smoothScroll(scrollTop, hashElementTop, this.hash);
+  //         }
+  //     });
+  // };
+  // const smoothScroll = (from, to, hash) => {
+  //     let timeInterval = 1,
+  //         prevScrollTop,
+  //         speed;
+  //     if (to > from) {
+  //         speed = 30;
+  //     } else {
+  //         speed = -30;
+  //     }
+  //     let move = setInterval(function() {
+  //         let scrollTop = Math.round(body.scrollTop || element.scrollTop);
+  //         if (
+  //             prevScrollTop === scrollTop ||
+  //             (to > from && scrollTop >= to) ||
+  //             (to < from && scrollTop <= to)
+  //         ) {
+  //             clearInterval(move);
+  //             history.replaceState(history.state, document.title, location.href.replace(/#.*$/g, '') + hash);
+  //         } else {
+  //             body.scrollTop += speed;
+  //             element.scrollTop += speed;
+  //             prevScrollTop = scrollTop;
+  //         }
+  //     }, timeInterval);
+  // };
+  // calcScroll();
 }
 
 /***/ }),
